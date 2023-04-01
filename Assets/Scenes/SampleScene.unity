@@ -167,6 +167,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23bb67d43aec9904e98bd685fdc958df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frameHeight: 20
+  frameWidth: 20
+  cellSize: 0.5
   horizontalWallPrefab: {fileID: 8081964067168565190, guid: cbade28e4c08d87489157dc0c1f8fb6b, type: 3}
   verticalWallPrefab: {fileID: 8081964067168565190, guid: 9ad8df771779eb94c96aa485d9bab50f, type: 3}
   holder: {fileID: 1964690295}
@@ -365,7 +368,7 @@ Transform:
   m_GameObject: {fileID: 845491884}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1964690296}

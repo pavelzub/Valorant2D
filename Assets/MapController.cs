@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class MapController : MonoBehaviour
 {
+    public int frameHeight = 10;
+    public int frameWidth = 10;
+    public float cellSize = 1;
     public Size frameSize = new Size(10, 10);
     public GameObject horizontalWallPrefab;
     public GameObject verticalWallPrefab;
@@ -29,17 +32,17 @@ public class MapController : MonoBehaviour
             group = other.group;
         }
 
-        public void InitWalls(Point pos, GameObject horizontalWallPrefab, GameObject verticalWallPrefab, GameObject warldMover) {
+        public void InitWalls(Vector2 pos, GameObject horizontalWallPrefab, GameObject verticalWallPrefab, GameObject warldMover, float cellSize) {
             if (needBottomWall) {
                 if (bottomWall == null) {
                     bottomWall = Instantiate(horizontalWallPrefab, warldMover.transform);
-                    bottomWall.transform.Translate(new Vector3(pos.X, pos.Y - 0.5f, 0f));
+                    bottomWall.transform.Translate(new Vector3(pos.x, pos.y - cellSize / 2f, 0f));
                 }
             }
             if (needRightWall) {
                 if (rightWall == null) {
                     rightWall = Instantiate(verticalWallPrefab, warldMover.transform);
-                    rightWall.transform.Translate(new Vector3(pos.X + 0.5f, pos.Y, 0));
+                    rightWall.transform.Translate(new Vector3(pos.x + cellSize / 2f, pos.y, 0));
                 }
             }
         }
@@ -48,6 +51,8 @@ public class MapController : MonoBehaviour
     private List<Cell[]> arr = new List<Cell[]>();
 
     void Start() {
+        frameSize = new Size(frameWidth, frameHeight);
+
         ResetMaze();
         GenerateMaze();
         InitMaze();
@@ -126,23 +131,23 @@ public class MapController : MonoBehaviour
     }
 
     void InitMaze() {
-        Point pos = new Point(0, 0);
+        Vector2 pos = new Vector2(0, 0);
         arr.ForEach(row =>
         {
             for (int i = 0; i < row.Length; i++) {
-                row[i].InitWalls(pos, horizontalWallPrefab, verticalWallPrefab, holder);
-                pos.X++;
+                row[i].InitWalls(pos, horizontalWallPrefab, verticalWallPrefab, holder, cellSize);
+                pos.x += cellSize;
             }
-            pos.Y--;
-            pos.X = 0;
+            pos.y -= cellSize;
+            pos.x = 0;
         });
     }
 
     void CreateFrame() {
         Point pos = new Point(0, 0);
         for (int i = 0; i < frameSize.Width; i++) {
-            Instantiate(verticalWallPrefab, new Vector3(-0.5f, -i, 0f), Quaternion.identity);
-            Instantiate(verticalWallPrefab, new Vector3(9.5f, -i, 0f), Quaternion.identity);
+            Instantiate(verticalWallPrefab, new Vector3(-cellSize / 4f, (-i + 1) * cellSize, 0f), Quaternion.identity);
+            Instantiate(verticalWallPrefab, new Vector3((frameSize.Width - 0.25f) * cellSize, (-i + 1) * cellSize, 0f), Quaternion.identity);
         }
     }
 
