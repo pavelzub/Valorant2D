@@ -285,6 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d5584481936a4840b85169dcdfd49f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 519420028}
   speed: 4
 --- !u!58 &845491886
 CircleCollider2D:
