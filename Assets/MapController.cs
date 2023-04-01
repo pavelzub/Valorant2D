@@ -13,15 +13,19 @@ public class MapController : MonoBehaviour
     public int frameWidth = 10;
     public float cellSize = 1;
     public int coinChance = 10;
+
     public Size frameSize = new Size(10, 10);
     public GameObject coinPrefab;
     public GameObject horizontalWallPrefab;
     public GameObject verticalWallPrefab;
+    public GameObject horizontalSpikyWallPrefab;
+    public GameObject verticalSpikyWallPrefab;
     public GameObject holder;
     public GameObject camera;
     private float cameraBottom;
     private int currentRow = 0;
     private int crasivayaRow = -1;
+    public int spikyWallChance = 10;
 
     private static int groupIndex = 0;
 
@@ -44,17 +48,31 @@ public class MapController : MonoBehaviour
             needRightWall = other.needRightWall;
             group = other.group;
         }
+        bool NeedSpikyWall(int spikyWallChance) {
+            return UnityEngine.Random.Range(0, 100) <= spikyWallChance;
+        }
 
-        public void InitWalls(Vector2 pos, GameObject horizontalWallPrefab, GameObject verticalWallPrefab, GameObject coinPrefab, GameObject warldMover, float cellSize) {
+        public void InitWalls(Vector2 pos, GameObject horizontalWallPrefab, GameObject verticalWallPrefab, GameObject horizontalSpikyWallPrefab, GameObject verticalSpikyWallPrefab, GameObject coinPrefab, GameObject warldMover, float cellSize, int spikyWallChance) {
             if (needBottomWall) {
                 if (bottomWall == null) {
-                    bottomWall = Instantiate(horizontalWallPrefab, warldMover.transform);
+                    if (NeedSpikyWall(spikyWallChance)) {
+                        bottomWall = Instantiate(horizontalSpikyWallPrefab, warldMover.transform);
+                    }
+                    else {
+                        bottomWall = Instantiate(horizontalWallPrefab, warldMover.transform);
+                    }
+
                     bottomWall.transform.Translate(new Vector3(pos.x, pos.y + cellSize / 2f, 0f));
                 }
             }
             if (needRightWall) {
                 if (rightWall == null) {
-                    rightWall = Instantiate(verticalWallPrefab, warldMover.transform);
+                    if (NeedSpikyWall(spikyWallChance)) {
+                        rightWall = Instantiate(verticalSpikyWallPrefab, warldMover.transform);
+                    }
+                    else {
+                        rightWall = Instantiate(verticalWallPrefab, warldMover.transform);
+                    }
                     rightWall.transform.Translate(new Vector3(pos.x + cellSize / 2f, pos.y, 0));
                 }
             }
@@ -175,7 +193,7 @@ public class MapController : MonoBehaviour
         }
 
         for (int i = 0; i < newRow.Length; i++) {
-            newRow[i].InitWalls(new Vector2(i * cellSize, currentRow * cellSize), horizontalWallPrefab, verticalWallPrefab, coinPrefab, holder, cellSize);
+            newRow[i].InitWalls(new Vector2(i * cellSize, currentRow * cellSize), horizontalWallPrefab, verticalWallPrefab, horizontalSpikyWallPrefab, verticalSpikyWallPrefab, coinPrefab, holder, cellSize, spikyWallChance);
         }
         currentRow++;
     }
@@ -183,7 +201,7 @@ public class MapController : MonoBehaviour
     void SdelatKrasivo() {
         var row = arr.Last();
 
-        for(int i = 0; i < frameSize.Width - 1; i++) {
+        for (int i = 0; i < frameSize.Width - 1; i++) {
             if (row[i].group != row[i + 1].group) {
                 row[i].needRightWall = false;
             }

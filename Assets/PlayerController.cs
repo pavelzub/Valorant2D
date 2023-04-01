@@ -53,6 +53,10 @@ public class PlayerController : MonoBehaviour
             score++;
             Destroy(other.gameObject);
         }
+
+        if (other.gameObject.tag == "Spiky") {
+            SwitchToScene("LeaderBoard");
+        }
     }
 
     public void SwitchToScene(string sceneName) {

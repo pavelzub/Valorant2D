@@ -242,8 +242,11 @@ MonoBehaviour:
   coinPrefab: {fileID: 3922041079123338158, guid: 6fa5742cee056bb4d86879667a782cb0, type: 3}
   horizontalWallPrefab: {fileID: 8081964067168565190, guid: cbade28e4c08d87489157dc0c1f8fb6b, type: 3}
   verticalWallPrefab: {fileID: 8081964067168565190, guid: f3e561e562536a74894caf669c89093e, type: 3}
+  horizontalSpikyWallPrefab: {fileID: 8081964067168565190, guid: 3fc211a24aec0bb479e0b42fc9303023, type: 3}
+  verticalSpikyWallPrefab: {fileID: 8081964067168565190, guid: b630ed570385f254a8686526212f1113, type: 3}
   holder: {fileID: 1964690295}
   camera: {fileID: 519420028}
+  spikyWallChance: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,7 +824,6 @@ GameObject:
   - component: {fileID: 2127288694}
   - component: {fileID: 2127288696}
   - component: {fileID: 2127288695}
-  - component: {fileID: 2127288697}
   m_Layer: 5
   m_Name: Score
   m_TagString: Untagged
@@ -948,16 +950,3 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127288693}
   m_CullTransparentMesh: 1
---- !u!114 &2127288697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2127288693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a66a86528177d3845972910fa560f14f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerController: {fileID: 845491885}

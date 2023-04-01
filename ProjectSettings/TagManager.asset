@@ -4,7 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Spiky
   - Coin
+  - Undefined
   layers:
   - Default
   - TransparentFX
