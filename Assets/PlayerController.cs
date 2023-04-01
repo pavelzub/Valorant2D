@@ -38,8 +38,13 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(direction * Time.deltaTime * speed);
         if (transform.position.y > cameraTop) {
-            transform.SetPositionAndRotation(cameraCenter, Quaternion.identity);
+            //transform.SetPositionAndRotation(cameraCenter, Quaternion.identity);
             SwitchToScene("LeaderBoard");
+        }
+
+        if (transform.position.y < cameraBottom) {
+            var directionY = new Vector2(0, -vertical);
+            transform.Translate(directionY * Time.deltaTime * speed);
         }
     }
     private void OnTriggerEnter2D(Collider2D other) {
