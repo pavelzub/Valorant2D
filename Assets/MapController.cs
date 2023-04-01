@@ -19,7 +19,7 @@ public class MapController : MonoBehaviour
     public GameObject verticalWallPrefab;
     public GameObject holder;
     public GameObject camera;
-    private float cameraTop;
+    private float cameraBottom;
     private int currentRow = 0;
     private int crasivayaRow = -1;
 
@@ -49,7 +49,7 @@ public class MapController : MonoBehaviour
             if (needBottomWall) {
                 if (bottomWall == null) {
                     bottomWall = Instantiate(horizontalWallPrefab, warldMover.transform);
-                    bottomWall.transform.Translate(new Vector3(pos.x, pos.y - cellSize / 2f, 0f));
+                    bottomWall.transform.Translate(new Vector3(pos.x, pos.y + cellSize / 2f, 0f));
                 }
             }
             if (needRightWall) {
@@ -83,7 +83,7 @@ public class MapController : MonoBehaviour
     void InitCamera() {
         var cameraComp = camera.GetComponent<Camera>();
         var cameraHeight = 2f * cameraComp.orthographicSize;
-        cameraTop = cameraComp.transform.position.y + cameraHeight / 2f;
+        cameraBottom = cameraComp.transform.position.y - cameraHeight / 2f;
     }
 
     void ResetMaze() {
@@ -175,7 +175,7 @@ public class MapController : MonoBehaviour
         }
 
         for (int i = 0; i < newRow.Length; i++) {
-            newRow[i].InitWalls(new Vector2(i * cellSize, -currentRow * cellSize), horizontalWallPrefab, verticalWallPrefab, coinPrefab, holder, cellSize);
+            newRow[i].InitWalls(new Vector2(i * cellSize, currentRow * cellSize), horizontalWallPrefab, verticalWallPrefab, coinPrefab, holder, cellSize);
         }
         currentRow++;
     }
@@ -219,8 +219,8 @@ public class MapController : MonoBehaviour
             bool haveBorder = false;
             var row = arr[0];
             for (int i = 0; i < row.Length; i++) {
-                if (row[i].bottomWall != null && row[i].bottomWall.transform.position.y > cameraTop + 2 ||
-                    row[i].rightWall != null && row[i].rightWall.transform.position.y > cameraTop + 2) {
+                if (row[i].bottomWall != null && row[i].bottomWall.transform.position.y < cameraBottom - 2 ||
+                    row[i].rightWall != null && row[i].rightWall.transform.position.y < cameraBottom - 2) {
                     removeLine = true;
                 }
 
