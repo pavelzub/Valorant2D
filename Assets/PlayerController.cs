@@ -7,18 +7,26 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject camera;
     public float speed = 5f; // скорость движения точки
+    private float cameraHeight;
+    private float cameraWidth;
+    private float cameraLeft;
+    private float cameraRight;
+    private float cameraBottom;
+    private float cameraTop;
+    private Vector3 cameraCenter;
 
     // вызывается при запуске игры
     private void Start() {
         var cameraComp = camera.GetComponent<Camera>();
-        float cameraHeight = 2f * cameraComp.orthographicSize;
-        float cameraWidth = cameraHeight * cameraComp.aspect;
-        float cameraLeft = cameraComp.transform.position.x - cameraWidth / 2f;
-        float cameraRight = cameraComp.transform.position.x + cameraWidth / 2f;
-        float cameraBottom = cameraComp.transform.position.y - cameraHeight / 2f;
-        float cameraTop = cameraComp.transform.position.y + cameraHeight / 2f;
-        var cameraCenter = camera.GetComponent<Transform>().position;
-        cameraCenter.z = 0;
+        cameraHeight = 2f * cameraComp.orthographicSize;
+        cameraWidth = cameraHeight * cameraComp.aspect;
+        cameraLeft = cameraComp.transform.position.x - cameraWidth / 2f;
+        cameraRight = cameraComp.transform.position.x + cameraWidth / 2f;
+        cameraBottom = cameraComp.transform.position.y - cameraHeight / 2f;
+        cameraTop = cameraComp.transform.position.y + cameraHeight / 2f;
+        var center = camera.GetComponent<Transform>().position;
+        center.z = 0;
+        cameraCenter = center;
         transform.Translate(cameraCenter);
     }
 
@@ -28,6 +36,9 @@ public class PlayerController : MonoBehaviour
         var direction = new Vector2(horizontal, vertical);
 
         transform.Translate(direction * Time.deltaTime * speed);
+        if (transform.position.y > cameraTop) {
+            transform.SetPositionAndRotation(cameraCenter, Quaternion.identity);
+        }
     }
     private void OnTriggerEnter2D(Collider2D other) {
 
