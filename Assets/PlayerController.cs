@@ -61,9 +61,16 @@ public class PlayerController : MonoBehaviour
         }
 
         if (other.gameObject.tag == "Spiky") {
-            SwitchToScene("LeaderBoard");
+            if (destroyTimer > 0) {
+                Destroy(other.gameObject);
+            }
+            else {
+                SwitchToScene("LeaderBoard");
+            }
+
         }
         if (other.gameObject.tag == "DestroyBooster") {
+
             Destroy(other.gameObject);
             destroyTimer = destroyTime;
         }
