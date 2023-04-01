@@ -3,7 +3,10 @@ guid: 23bb67d43aec9904e98bd685fdc958df
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - horizontalWallPrefab: {fileID: 8081964067168565190, guid: cbade28e4c08d87489157dc0c1f8fb6b, type: 3}
+  - verticalWallPrefab: {fileID: 8081964067168565190, guid: f3e561e562536a74894caf669c89093e, type: 3}
+  - holder: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
