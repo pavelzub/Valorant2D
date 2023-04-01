@@ -244,8 +244,11 @@ MonoBehaviour:
   boosterPrefab: {fileID: 3922041079123338158, guid: 0ea2c23da7a45684ca97495fbb7cfaf1, type: 3}
   horizontalWallPrefab: {fileID: 8081964067168565190, guid: cbade28e4c08d87489157dc0c1f8fb6b, type: 3}
   verticalWallPrefab: {fileID: 8081964067168565190, guid: f3e561e562536a74894caf669c89093e, type: 3}
+  horizontalSpikyWallPrefab: {fileID: 8081964067168565190, guid: 3fc211a24aec0bb479e0b42fc9303023, type: 3}
+  verticalSpikyWallPrefab: {fileID: 8081964067168565190, guid: b630ed570385f254a8686526212f1113, type: 3}
   holder: {fileID: 1964690295}
   camera: {fileID: 519420028}
+  spikyWallChance: 10
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
