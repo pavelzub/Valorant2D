@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     private float cameraBottom;
     private float cameraTop;
     public int score = 0;
+    public float destroyTime = 5;
+    private float destroyTimer = 0;
     private Vector3 cameraCenter;
 
     // вызывается при запуске игры
@@ -33,6 +35,10 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update() {
+        if (destroyTimer > 0) {
+            destroyTimer -= Time.deltaTime;
+        }
+
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         var direction = new Vector2(horizontal, vertical);
@@ -57,6 +63,14 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Spiky") {
             SwitchToScene("LeaderBoard");
         }
+        if (other.gameObject.tag == "DestroyBooster") {
+            Destroy(other.gameObject);
+            destroyTimer = destroyTime;
+        }
+        if (other.gameObject.tag == "Wall" && destroyTimer > 0) {
+            Destroy(other.gameObject);
+        }
+
     }
 
     public void SwitchToScene(string sceneName) {

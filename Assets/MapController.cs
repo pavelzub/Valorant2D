@@ -12,10 +12,11 @@ public class MapController : MonoBehaviour
     public int frameHeight = 10;
     public int frameWidth = 10;
     public float cellSize = 1;
-    public int coinChance = 10;
-
+    public float coinChance = 10;
+    public float boosterChance = 1;
     public Size frameSize = new Size(10, 10);
     public GameObject coinPrefab;
+    public GameObject boosterPrefab;
     public GameObject horizontalWallPrefab;
     public GameObject verticalWallPrefab;
     public GameObject horizontalSpikyWallPrefab;
@@ -36,8 +37,10 @@ public class MapController : MonoBehaviour
         public GameObject bottomWall = null;
         public GameObject rightWall = null;
         public GameObject coin = null;
+        public GameObject booster = null;
         public int group = 0;
         public bool needCoin = false;
+        public bool needBooster = false;
 
 
         public Cell() {
@@ -52,7 +55,7 @@ public class MapController : MonoBehaviour
             return UnityEngine.Random.Range(0, 100) <= spikyWallChance;
         }
 
-        public void InitWalls(Vector2 pos, GameObject horizontalWallPrefab, GameObject verticalWallPrefab, GameObject horizontalSpikyWallPrefab, GameObject verticalSpikyWallPrefab, GameObject coinPrefab, GameObject warldMover, float cellSize, int spikyWallChance) {
+        public void InitWalls(Vector2 pos, GameObject horizontalWallPrefab, GameObject verticalWallPrefab, GameObject horizontalSpikyWallPrefab, GameObject verticalSpikyWallPrefab, GameObject coinPrefab, GameObject boosterPrefab, GameObject warldMover, float cellSize, int spikyWallChance) {
             if (needBottomWall) {
                 if (bottomWall == null) {
                     if (NeedSpikyWall(spikyWallChance)) {
@@ -81,6 +84,12 @@ public class MapController : MonoBehaviour
                 if (coin == null) {
                     coin = Instantiate(coinPrefab, warldMover.transform);
                     coin.transform.Translate(new Vector3(pos.x, pos.y, 0));
+                }
+            }
+            else if (needBooster) {
+                if (booster == null) {
+                    booster = Instantiate(boosterPrefab, warldMover.transform);
+                    booster.transform.Translate(new Vector3(pos.x, pos.y, 0));
                 }
             }
         }
@@ -126,6 +135,10 @@ public class MapController : MonoBehaviour
         return UnityEngine.Random.Range(0, 100) <= coinChance;
     }
 
+    bool NeedBooster() {
+        return UnityEngine.Random.Range(0, 100) <= boosterChance;
+    }
+
     void GenerateMaze() {
         int index = 0;
         arr.Add(new Cell[frameSize.Width]);
@@ -153,7 +166,8 @@ public class MapController : MonoBehaviour
             newRow[i].needBottomWall = false;
             newRow[i].needRightWall = false;
             newRow[i].needCoin = NeedCoin();
-        }
+            newRow[i].needBooster = !newRow[i].needCoin && NeedBooster();
+        }   
 
         //рандомим правые стены
         for (int i = 0; i < frameSize.Width - 1; i++) {
@@ -161,9 +175,9 @@ public class MapController : MonoBehaviour
                 newRow[i].needRightWall = true;
             }
             else {
-                if (newRow[i + 1].group > newRow[i].group) {
-                    newRow[i + 1].group = newRow[i].group;
-                }
+                //if (newRow[i + 1].group > newRow[i].group) {
+                //    newRow[i + 1].group = newRow[i].group;
+                //}
                 newRow[i + 1].group = newRow[i].group;
             }
         }
@@ -193,7 +207,7 @@ public class MapController : MonoBehaviour
         }
 
         for (int i = 0; i < newRow.Length; i++) {
-            newRow[i].InitWalls(new Vector2(i * cellSize, currentRow * cellSize), horizontalWallPrefab, verticalWallPrefab, horizontalSpikyWallPrefab, verticalSpikyWallPrefab, coinPrefab, holder, cellSize, spikyWallChance);
+            newRow[i].InitWalls(new Vector2(i * cellSize, currentRow * cellSize), horizontalWallPrefab, verticalWallPrefab, horizontalSpikyWallPrefab, verticalSpikyWallPrefab, coinPrefab, boosterPrefab, holder, cellSize, spikyWallChance);
         }
         currentRow++;
     }
@@ -227,6 +241,10 @@ public class MapController : MonoBehaviour
 
         if (cell.coin != null) {
             Destroy(cell.coin);
+        }
+
+        if (cell.booster != null) {
+            Destroy(cell.booster);
         }
     }
 

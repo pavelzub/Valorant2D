@@ -239,14 +239,13 @@ MonoBehaviour:
   frameWidth: 20
   cellSize: 0.86
   coinChance: 10
+  boosterChance: 0.32
   coinPrefab: {fileID: 3922041079123338158, guid: 6fa5742cee056bb4d86879667a782cb0, type: 3}
+  boosterPrefab: {fileID: 3922041079123338158, guid: 0ea2c23da7a45684ca97495fbb7cfaf1, type: 3}
   horizontalWallPrefab: {fileID: 8081964067168565190, guid: cbade28e4c08d87489157dc0c1f8fb6b, type: 3}
   verticalWallPrefab: {fileID: 8081964067168565190, guid: f3e561e562536a74894caf669c89093e, type: 3}
-  horizontalSpikyWallPrefab: {fileID: 8081964067168565190, guid: 3fc211a24aec0bb479e0b42fc9303023, type: 3}
-  verticalSpikyWallPrefab: {fileID: 8081964067168565190, guid: b630ed570385f254a8686526212f1113, type: 3}
   holder: {fileID: 1964690295}
   camera: {fileID: 519420028}
-  spikyWallChance: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,6 +372,7 @@ GameObject:
   - component: {fileID: 845491886}
   - component: {fileID: 845491885}
   - component: {fileID: 845491889}
+  - component: {fileID: 845491890}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -395,6 +395,7 @@ MonoBehaviour:
   camera: {fileID: 519420028}
   speed: 4
   score: 0
+  destroyTime: 5
 --- !u!58 &845491886
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -499,6 +500,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!58 &845491890
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845491884}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &1076741857
 GameObject:
   m_ObjectHideFlags: 0

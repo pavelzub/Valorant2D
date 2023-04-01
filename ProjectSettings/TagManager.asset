@@ -6,7 +6,8 @@ TagManager:
   tags:
   - Spiky
   - Coin
-  - Undefined
+  - DestroyBooster
+  - Wall
   layers:
   - Default
   - TransparentFX
