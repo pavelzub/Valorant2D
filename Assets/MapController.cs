@@ -10,6 +10,7 @@ public class MapController : MonoBehaviour
     public Size frameSize = new Size(10, 10);
     public GameObject horizontalWallPrefab;
     public GameObject verticalWallPrefab;
+    public GameObject holder;
 
     class Cell
     {
@@ -125,13 +126,11 @@ public class MapController : MonoBehaviour
     }
 
     void InitMaze() {
-        GameObject parentObject = GameObject.Find("WorldMover");
-
         Point pos = new Point(0, 0);
         arr.ForEach(row =>
         {
             for (int i = 0; i < row.Length; i++) {
-                row[i].InitWalls(pos, horizontalWallPrefab, verticalWallPrefab, parentObject);
+                row[i].InitWalls(pos, horizontalWallPrefab, verticalWallPrefab, holder);
                 pos.X++;
             }
             pos.Y--;

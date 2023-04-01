@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalWallPrefab: {fileID: 8081964067168565190, guid: cbade28e4c08d87489157dc0c1f8fb6b, type: 3}
   verticalWallPrefab: {fileID: 8081964067168565190, guid: 9ad8df771779eb94c96aa485d9bab50f, type: 3}
+  holder: {fileID: 1964690295}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
