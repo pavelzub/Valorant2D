@@ -5,22 +5,22 @@ using UnityEngine;
 public class CRTPostProcess : MonoBehaviour
 {
     public Shader shader;
-    public float bend = 4f;
-    public float scanlineSize1 = 200;
+    public float bend = 8f;
+    public float scanlineSize1 = 800;
     public float scanlineSpeed1 = -10;
-    public float scanlineSize2 = 20;
+    public float scanlineSize2 = 10;
     public float scanlineSpeed2 = -3;
     public float scanlineAmount = 0.05f;
     public float vignetteSize = 1.9f;
     public float vignetteSmoothness = 0.6f;
     public float vignetteEdgeRound = 8f;
     public float noiseSize = 75f;
-    public float noiseAmount = 0.05f;
+    public float noiseAmount = 0.02f;
 
     // Chromatic aberration amounts
-    public Vector2 redOffset = new Vector2(0, -0.01f);
+    public Vector2 redOffset = new Vector2(0, -0.001f);
     public Vector2 blueOffset = Vector2.zero;
-    public Vector2 greenOffset = new Vector2(0, 0.01f);
+    public Vector2 greenOffset = new Vector2(0, 0.001f);
 
     private Material material;
 
