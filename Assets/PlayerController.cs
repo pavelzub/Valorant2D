@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -38,9 +39,13 @@ public class PlayerController : MonoBehaviour
         transform.Translate(direction * Time.deltaTime * speed);
         if (transform.position.y > cameraTop) {
             transform.SetPositionAndRotation(cameraCenter, Quaternion.identity);
+            SwitchToScene("LeaderBoard");
         }
     }
     private void OnTriggerEnter2D(Collider2D other) {
 
+    }
+    public void SwitchToScene(string sceneName) {
+        SceneManager.LoadScene(sceneName);
     }
 }

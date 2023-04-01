@@ -206,7 +206,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 432288252}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1683636147}
+        m_TargetAssemblyTypeName: SwitchScenesButton, Assembly-CSharp
+        m_MethodName: SwitchToScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: LeaderBoard
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &432288252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,7 +425,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1102477193}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1439864992}
+        m_TargetAssemblyTypeName: SwitchScenesButton, Assembly-CSharp
+        m_MethodName: SwitchToScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1102477193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,6 +589,7 @@ GameObject:
   - component: {fileID: 1439864989}
   - component: {fileID: 1439864991}
   - component: {fileID: 1439864990}
+  - component: {fileID: 1439864992}
   m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
@@ -579,7 +604,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439864988}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -630,6 +655,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439864988}
   m_CullTransparentMesh: 1
+--- !u!114 &1439864992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439864988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2332fd79084174f938fed584f485ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  naxtSceneName: SampleScene
 --- !u!1 &1683636143
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,6 +679,7 @@ GameObject:
   - component: {fileID: 1683636144}
   - component: {fileID: 1683636146}
   - component: {fileID: 1683636145}
+  - component: {fileID: 1683636147}
   m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
@@ -706,6 +745,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1683636143}
   m_CullTransparentMesh: 1
+--- !u!114 &1683636147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683636143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2332fd79084174f938fed584f485ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  naxtSceneName: LeaderBoard
 --- !u!1 &1842764270
 GameObject:
   m_ObjectHideFlags: 0
