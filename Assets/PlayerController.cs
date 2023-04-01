@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private float cameraRight;
     private float cameraBottom;
     private float cameraTop;
+    public int score = 0;
     private Vector3 cameraCenter;
 
     // вызывается при запуске игры
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.tag == "Coin") {
+            score++;
             Destroy(other.gameObject);
         }
     }
