@@ -170,6 +170,8 @@ MonoBehaviour:
   frameHeight: 20
   frameWidth: 20
   cellSize: 0.86
+  coinChance: 10
+  coinPrefab: {fileID: 3922041079123338158, guid: 6fa5742cee056bb4d86879667a782cb0, type: 3}
   horizontalWallPrefab: {fileID: 8081964067168565190, guid: cbade28e4c08d87489157dc0c1f8fb6b, type: 3}
   verticalWallPrefab: {fileID: 8081964067168565190, guid: f3e561e562536a74894caf669c89093e, type: 3}
   holder: {fileID: 1964690295}

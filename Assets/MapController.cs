@@ -12,7 +12,9 @@ public class MapController : MonoBehaviour
     public int frameHeight = 10;
     public int frameWidth = 10;
     public float cellSize = 1;
+    public int coinChance = 10;
     public Size frameSize = new Size(10, 10);
+    public GameObject coinPrefab;
     public GameObject horizontalWallPrefab;
     public GameObject verticalWallPrefab;
     public GameObject holder;
@@ -29,10 +31,13 @@ public class MapController : MonoBehaviour
         public bool needRightWall = false;
         public GameObject bottomWall = null;
         public GameObject rightWall = null;
+        public GameObject coin = null;
         public int group = 0;
+        public bool needCoin = false;
 
 
-        public Cell() { }
+        public Cell() {
+        }
         public Cell(Cell other) {
 
             needBottomWall = other.needBottomWall;
@@ -40,7 +45,7 @@ public class MapController : MonoBehaviour
             group = other.group;
         }
 
-        public void InitWalls(Vector2 pos, GameObject horizontalWallPrefab, GameObject verticalWallPrefab, GameObject warldMover, float cellSize) {
+        public void InitWalls(Vector2 pos, GameObject horizontalWallPrefab, GameObject verticalWallPrefab, GameObject coinPrefab, GameObject warldMover, float cellSize) {
             if (needBottomWall) {
                 if (bottomWall == null) {
                     bottomWall = Instantiate(horizontalWallPrefab, warldMover.transform);
@@ -51,6 +56,13 @@ public class MapController : MonoBehaviour
                 if (rightWall == null) {
                     rightWall = Instantiate(verticalWallPrefab, warldMover.transform);
                     rightWall.transform.Translate(new Vector3(pos.x + cellSize / 2f, pos.y, 0));
+                }
+            }
+
+            if (needCoin) {
+                if (coin == null) {
+                    coin = Instantiate(coinPrefab, warldMover.transform);
+                    coin.transform.Translate(new Vector3(pos.x, pos.y, 0));
                 }
             }
         }
@@ -92,6 +104,10 @@ public class MapController : MonoBehaviour
         return UnityEngine.Random.Range(0, 2) == 0;
     }
 
+    bool NeedCoin() {
+        return UnityEngine.Random.Range(0, 100) <= coinChance;
+    }
+
     void GenerateMaze() {
         int index = 0;
         arr.Add(new Cell[frameSize.Width]);
@@ -118,6 +134,7 @@ public class MapController : MonoBehaviour
             }
             newRow[i].needBottomWall = false;
             newRow[i].needRightWall = false;
+            newRow[i].needCoin = NeedCoin();
         }
 
         //рандомим правые стены
@@ -158,7 +175,7 @@ public class MapController : MonoBehaviour
         }
 
         for (int i = 0; i < newRow.Length; i++) {
-            newRow[i].InitWalls(new Vector2(i * cellSize, -currentRow * cellSize), horizontalWallPrefab, verticalWallPrefab, holder, cellSize);
+            newRow[i].InitWalls(new Vector2(i * cellSize, -currentRow * cellSize), horizontalWallPrefab, verticalWallPrefab, coinPrefab, holder, cellSize);
         }
         currentRow++;
     }
@@ -181,6 +198,19 @@ public class MapController : MonoBehaviour
             Instantiate(verticalWallPrefab, new Vector3((frameSize.Width - 0.25f) * cellSize, (-i + 1) * cellSize, 0f), Quaternion.identity);
         }
     }
+    void ClearCell(Cell cell) {
+        if (cell.bottomWall != null) {
+            Destroy(cell.bottomWall);
+        }
+
+        if (cell.rightWall != null) {
+            Destroy(cell.rightWall);
+        }
+
+        if (cell.coin != null) {
+            Destroy(cell.coin);
+        }
+    }
 
     // Update is called once per frame
     void Update() {
@@ -199,13 +229,7 @@ public class MapController : MonoBehaviour
 
             if (removeLine || !haveBorder) {
                 for (int i = 0; i < row.Length; i++) {
-                    if (row[i].bottomWall != null) {
-                        Destroy(row[i].bottomWall);
-                    }
-
-                    if (row[i].rightWall != null) {
-                        Destroy(row[i].rightWall);
-                    }
+                    ClearCell(row[i]);
                 }
 
                 arr.RemoveAt(0);
