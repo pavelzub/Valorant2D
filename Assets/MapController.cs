@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Reflection;
 using System.Xml;
 using UnityEngine;
 
@@ -14,6 +16,8 @@ public class MapController : MonoBehaviour
     public GameObject horizontalWallPrefab;
     public GameObject verticalWallPrefab;
     public GameObject holder;
+
+    private static int groupIndex = 0;
 
     class Cell
     {
@@ -87,48 +91,57 @@ public class MapController : MonoBehaviour
         }
 
         for (int row = 0; row < frameSize.Height; row++) {
+            GeneraneNewRow(false);
+        }
+    }
 
-            //рандомим правые стены
-            for (int i = 0; i < frameSize.Width - 1; i++) {
-                if (RandomBool() || arr[row][i].group == arr[row][i + 1].group) {
-                    arr[row][i].needRightWall = true;
-                }
-                else {
-                    arr[row][i + 1].group = arr[row][i].group;
-                }
+    void GeneraneNewRow(bool pizdato) {
+        //новая строка
+        arr.Add(Array.ConvertAll(arr.Last(), originalItem => new Cell(originalItem)));
+
+        var newRow = arr.Last();
+
+        for (int i = 0; i < frameSize.Width; i++) {
+            if (newRow[i].needBottomWall) {
+                newRow[i].group = groupIndex++;
             }
+            newRow[i].needBottomWall = false;
+            newRow[i].needRightWall = false;
+        }
 
-
-            Dictionary<int, int> dict = new Dictionary<int, int>();
-            for (int i = 0; i < frameSize.Width; i++) {
-                if (dict.ContainsKey(arr[row][i].group)) {
-                    dict[arr[row][i].group]++;
-                }
-                else {
-                    dict.Add(arr[row][i].group, 1);
-                }
+        //рандомим правые стены
+        for (int i = 0; i < frameSize.Width - 1; i++) {
+            if (RandomBool() || newRow[i].group == newRow[i + 1].group) {
+                newRow[i].needRightWall = true;
             }
-
-            //рандомим нижние стены
-            for (int i = 0; i < frameSize.Width; i++) {
-                if (dict[arr[row][i].group] > 1 && RandomBool()) {
-                    arr[row][i].needBottomWall = true;
-                    dict[arr[row][i].group]--;
+            else {
+                if (newRow[i + 1].group > newRow[i].group) {
+                    newRow[i + 1].group = newRow[i].group;
                 }
+                newRow[i + 1].group = newRow[i].group;
             }
+        }
 
-            //новая строка
-            arr.Add(Array.ConvertAll(arr[row], originalItem => new Cell(originalItem)));
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        for (int i = 0; i < frameSize.Width; i++) {
+            if (dict.ContainsKey(newRow[i].group)) {
+                dict[newRow[i].group]++;
+            }
+            else {
+                dict.Add(newRow[i].group, 1);
+            }
+        }
 
-            for (int i = 0; i < frameSize.Width; i++) {
-                if (arr[row + 1][i].needBottomWall) {
-                    arr[row + 1][i].group = index++;
-                }
-                arr[row + 1][i].needBottomWall = false;
-                arr[row + 1][i].needRightWall = false;
+        //рандомим нижние стены
+        for (int i = 0; i < frameSize.Width; i++) {
+            if (dict[newRow[i].group] > 1 && RandomBool()) {
+                newRow[i].needBottomWall = true;
+                dict[newRow[i].group]--;
             }
         }
     }
+
+
 
     void InitMaze() {
         Vector2 pos = new Vector2(0, 0);
