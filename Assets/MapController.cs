@@ -11,29 +11,34 @@ public class MapController : MonoBehaviour
     public GameObject horizontalWallPrefab;
     public GameObject verticalWallPrefab;
 
-    class Cell {
+    class Cell
+    {
         public bool needBottomWall = false;
         public bool needRightWall = false;
         public GameObject bottomWall = null;
         public GameObject rightWall = null;
         public int group = 0;
 
+
         public Cell() { }
         public Cell(Cell other) {
+
             needBottomWall = other.needBottomWall;
             needRightWall = other.needRightWall;
             group = other.group;
         }
 
-        public void InitWalls(Point pos, GameObject horizontalWallPrefab, GameObject verticalWallPrefab) {
+        public void InitWalls(Point pos, GameObject horizontalWallPrefab, GameObject verticalWallPrefab, GameObject warldMover) {
             if (needBottomWall) {
                 if (bottomWall == null) {
-                    bottomWall = Instantiate(horizontalWallPrefab, new Vector3(pos.X, pos.Y - 0.5f, 0f), Quaternion.identity);
+                    bottomWall = Instantiate(horizontalWallPrefab, warldMover.transform);
+                    bottomWall.transform.Translate(new Vector3(pos.X, pos.Y - 0.5f, 0f));
                 }
             }
             if (needRightWall) {
                 if (rightWall == null) {
-                    rightWall = Instantiate(verticalWallPrefab, new Vector3(pos.X + 0.5f, pos.Y, 0), Quaternion.identity);
+                    rightWall = Instantiate(verticalWallPrefab, warldMover.transform);
+                    rightWall.transform.Translate(new Vector3(pos.X + 0.5f, pos.Y, 0));
                 }
             }
         }
@@ -41,8 +46,7 @@ public class MapController : MonoBehaviour
 
     private List<Cell[]> arr = new List<Cell[]>();
 
-    void Start()
-    {
+    void Start() {
         ResetMaze();
         GenerateMaze();
         InitMaze();
@@ -52,13 +56,11 @@ public class MapController : MonoBehaviour
     void ResetMaze() {
         arr.ForEach(item =>
         {
-            for (int i = 0; i < item.Length; i++)
-            {
+            for (int i = 0; i < item.Length; i++) {
                 if (item[i].bottomWall != null) {
                     Destroy(item[i].bottomWall);
                 }
-                if (item[i].rightWall != null)
-                {
+                if (item[i].rightWall != null) {
                     Destroy(item[i].rightWall);
                 }
             }
@@ -104,7 +106,7 @@ public class MapController : MonoBehaviour
             //рандомим нижние стены
             for (int i = 0; i < frameSize.Width; i++) {
                 if (dict[arr[row][i].group] > 1 && RandomBool()) {
-                    arr[row][i].needBottomWall= true;
+                    arr[row][i].needBottomWall = true;
                     dict[arr[row][i].group]--;
                 }
             }
@@ -123,10 +125,13 @@ public class MapController : MonoBehaviour
     }
 
     void InitMaze() {
+        GameObject parentObject = GameObject.Find("WorldMover");
+
         Point pos = new Point(0, 0);
-        arr.ForEach(row => {
+        arr.ForEach(row =>
+        {
             for (int i = 0; i < row.Length; i++) {
-                row[i].InitWalls(pos, horizontalWallPrefab, verticalWallPrefab);
+                row[i].InitWalls(pos, horizontalWallPrefab, verticalWallPrefab, parentObject);
                 pos.X++;
             }
             pos.Y--;
@@ -143,8 +148,7 @@ public class MapController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+
     }
 }
