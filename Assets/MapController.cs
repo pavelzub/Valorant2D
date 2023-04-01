@@ -16,6 +16,10 @@ public class MapController : MonoBehaviour
     public GameObject horizontalWallPrefab;
     public GameObject verticalWallPrefab;
     public GameObject holder;
+    public GameObject camera;
+    private float cameraTop;
+    private int currentRow = 0;
+    private int crasivayaRow = -1;
 
     private static int groupIndex = 0;
 
@@ -56,11 +60,18 @@ public class MapController : MonoBehaviour
 
     void Start() {
         frameSize = new Size(frameWidth, frameHeight);
+        crasivayaRow = frameSize.Height * 2;
 
+        InitCamera();
         ResetMaze();
         GenerateMaze();
-        InitMaze();
         CreateFrame();
+    }
+
+    void InitCamera() {
+        var cameraComp = camera.GetComponent<Camera>();
+        var cameraHeight = 2f * cameraComp.orthographicSize;
+        cameraTop = cameraComp.transform.position.y + cameraHeight / 2f;
     }
 
     void ResetMaze() {
@@ -90,12 +101,12 @@ public class MapController : MonoBehaviour
             arr[0][i].group = index++;
         }
 
-        for (int row = 0; row < frameSize.Height; row++) {
-            GeneraneNewRow(false);
+        for (int row = 0; row < frameSize.Height * 1.5; row++) {
+            GeneraneNewRow();
         }
     }
 
-    void GeneraneNewRow(bool pizdato) {
+    void GeneraneNewRow() {
         //новая строка
         arr.Add(Array.ConvertAll(arr.Last(), originalItem => new Cell(originalItem)));
 
@@ -139,21 +150,28 @@ public class MapController : MonoBehaviour
                 dict[newRow[i].group]--;
             }
         }
+
+        crasivayaRow--;
+        if (crasivayaRow < 0) {
+            crasivayaRow = frameSize.Height * 2;
+            SdelatKrasivo();
+        }
+
+        for (int i = 0; i < newRow.Length; i++) {
+            newRow[i].InitWalls(new Vector2(i * cellSize, -currentRow * cellSize), horizontalWallPrefab, verticalWallPrefab, holder, cellSize);
+        }
+        currentRow++;
     }
 
+    void SdelatKrasivo() {
+        var row = arr.Last();
 
-
-    void InitMaze() {
-        Vector2 pos = new Vector2(0, 0);
-        arr.ForEach(row =>
-        {
-            for (int i = 0; i < row.Length; i++) {
-                row[i].InitWalls(pos, horizontalWallPrefab, verticalWallPrefab, holder, cellSize);
-                pos.x += cellSize;
+        for(int i = 0; i < frameSize.Width - 1; i++) {
+            if (row[i].group != row[i + 1].group) {
+                row[i].needRightWall = false;
             }
-            pos.y -= cellSize;
-            pos.x = 0;
-        });
+            row[i].group = groupIndex++;
+        }
     }
 
     void CreateFrame() {
@@ -166,6 +184,33 @@ public class MapController : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
+        if (arr.Count() > 0) {
+            bool removeLine = false;
+            bool haveBorder = false;
+            var row = arr[0];
+            for (int i = 0; i < row.Length; i++) {
+                if (row[i].bottomWall != null && row[i].bottomWall.transform.position.y > cameraTop + 2 ||
+                    row[i].rightWall != null && row[i].rightWall.transform.position.y > cameraTop + 2) {
+                    removeLine = true;
+                }
 
+                haveBorder |= row[i].bottomWall != null || row[i].rightWall != null;
+            }
+
+            if (removeLine || !haveBorder) {
+                for (int i = 0; i < row.Length; i++) {
+                    if (row[i].bottomWall != null) {
+                        Destroy(row[i].bottomWall);
+                    }
+
+                    if (row[i].rightWall != null) {
+                        Destroy(row[i].rightWall);
+                    }
+                }
+
+                arr.RemoveAt(0);
+                GeneraneNewRow();
+            }
+        }
     }
 }
