@@ -24,9 +24,11 @@ public class PlayerController : MonoBehaviour
     private float destroyTimer = 0;
     private Vector3 cameraCenter;
     private bool dead = false;
+    private Animation animation;
 
     // вызывается при запуске игры
     private void Start() {
+        animation = GetComponent<Animation>();
         var cameraComp = camera.GetComponent<Camera>();
         cameraHeight = 2f * cameraComp.orthographicSize;
         cameraWidth = cameraHeight * cameraComp.aspect;
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
         }
         else {
             wings.volume = 0.6f;
+            //animation.Stop("Bonus");
         }
         wings.Play();
         float horizontal = Input.GetAxis("Horizontal");
@@ -91,6 +94,9 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "DestroyBooster") {
 
             Destroy(other.gameObject);
+            if (destroyTimer <= 0) {
+                //animation.Play("Bonus");
+            }
             destroyTimer = destroyTime;
         }
         if (other.gameObject.tag == "Wall" && destroyTimer > 0) {
@@ -103,8 +109,7 @@ public class PlayerController : MonoBehaviour
         dead = true;
         mover.Stop();
 
-        var anim = GetComponent<Animation>();
-        anim.Play("Death");
+        animation.Play("Death", PlayMode.StopAll);
     }
 
     public void DeathAnimEnd() {
