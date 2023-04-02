@@ -10,7 +10,7 @@ public class ScrollViewController : MonoBehaviour
 
     public void AddContent(List<Player> players)
     {
-        players.Sort((p1, p2) => p1.score.CompareTo(p2.score));
+        players.Sort((p1, p2) => p2.score.CompareTo(p1.score));
         foreach (Player player in players) {
             GameObject itemInScrollView = Instantiate(playerResultPrefab, content.transform);
             LeaderboardRowController leaderboardRowController = itemInScrollView.GetComponent<LeaderboardRowController>();
