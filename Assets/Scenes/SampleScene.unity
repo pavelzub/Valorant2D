@@ -7277,7 +7277,7 @@ MonoBehaviour:
   speed: 1
   playerController: {fileID: 845491885}
   coinsThreshold: 10
-  speedIncreece: 0.2
+  speedIncreece: 0.1
   maxSpeed: 2.5
 --- !u!210 &1964690298
 SortingGroup:
