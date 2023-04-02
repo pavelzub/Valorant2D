@@ -43,6 +43,8 @@ public class DBConnector : MonoBehaviour
         Player user = new Player();
         user.name = name;
         user.score = score;
+        LeaderboardController.currentPlayerName = name;
+        LeaderboardController.currentPlayerScore = score;
         string json = JsonUtility.ToJson(user);
         StartCoroutine(PostRequest(URL, json.ToString()));
     }

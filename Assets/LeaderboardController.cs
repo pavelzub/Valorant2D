@@ -24,25 +24,23 @@ public class LeaderboardController : MonoBehaviour
 {
     public GameObject currentPlayerResult;
     public ScrollViewController scrollViewController;
+    public static string currentPlayerName;
+    public static int currentPlayerScore;
 
     public static string URL = "https://mazerix-e6c90-default-rtdb.europe-west1.firebasedatabase.app/.json";
 
-    private Player currentPlayer = new Player();
 
-    public void SetCurrentPlayerResult(string playerName, int score)
+    public void SetCurrentPlayerResult()
     {
-        currentPlayer.name = playerName;
-        currentPlayer.score = score;
         CurrentPlayerStatistic currentPlayerStatistic = currentPlayerResult.GetComponent<CurrentPlayerStatistic>();
-        currentPlayerStatistic.WritePlayerStatictic(playerName, score);
-
+        currentPlayerStatistic.WritePlayerStatictic(currentPlayerName, currentPlayerScore);
         
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        SetCurrentPlayerResult("VasyaPupkin", 121213);
+        SetCurrentPlayerResult();
         StartCoroutine(GetRequest(URL));
 
     }
@@ -85,18 +83,9 @@ public class LeaderboardController : MonoBehaviour
             }
             else
             {
-                // ������� ����� � �������
-                //var players = ParseResponse(webRequest.downloadHandler.text);
-                List<Player> p2 = new List<Player>();
-                Player p1 = new Player();
-                p1.name = "Vasya";
-                p1.score = 11;
-                Player pp = new Player();
-                pp.name = "Petya";
-                pp.score = 58;
-                p2.Add(p1);
-                p2.Add(pp);
-                scrollViewController.AddContent(p2);
+                // Get list of players from DB
+                var players = ParseResponse(webRequest.downloadHandler.text);
+                scrollViewController.AddContent(players);
                 Debug.Log(webRequest.downloadHandler.text);
             }
         }
