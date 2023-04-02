@@ -23,6 +23,7 @@ public class PlayersData
 public class LeaderboardController : MonoBehaviour
 {
     public GameObject currentPlayerResult;
+    public ScrollViewController scrollViewController;
 
     public static string URL = "https://mazerix-e6c90-default-rtdb.europe-west1.firebasedatabase.app/.json";
 
@@ -95,7 +96,6 @@ public class LeaderboardController : MonoBehaviour
                 pp.score = 58;
                 p2.Add(p1);
                 p2.Add(pp);
-                ScrollViewController scrollViewController = new ScrollViewController();
                 scrollViewController.AddContent(p2);
                 Debug.Log(webRequest.downloadHandler.text);
             }
