@@ -7274,7 +7274,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31956790b3b0a1b47a522591092a7fc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -1
+  speed: 1
+  playerController: {fileID: 845491885}
+  coinsThreshold: 10
+  speedIncreece: 0.2
+  maxSpeed: 2.5
 --- !u!210 &1964690298
 SortingGroup:
   m_ObjectHideFlags: 0
