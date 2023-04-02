@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     public GameObject camera;
     public AudioSource cointouch;
     public AudioSource wings;
+    public AudioSource wallDestroy;
+    public AudioSource lose;
+    public AudioSource bonustouch;
     public WorldMover mover;
     public GameObject nameWindow;
     public float speed = 5f; // скорость движения точки
@@ -25,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 cameraCenter;
     private bool dead = false;
     private Animation animation;
+    private AudioSource audioMainLoop;
 
     // вызывается при запуске игры
     private void Start() {
@@ -40,6 +44,12 @@ public class PlayerController : MonoBehaviour
         center.z = 0;
         cameraCenter = center;
         transform.Translate(cameraCenter);
+
+        var audio = GameObject.Find("AudioMainLoop");
+        if (audio) {
+            audioMainLoop = audio.GetComponent<AudioSource>();
+        }
+
     }
 
     private void Update() {
@@ -85,6 +95,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Spiky") {
             if (destroyTimer > 0) {
                 Destroy(other.gameObject);
+                wallDestroy.Play();
             }
             else {
                 Lose();
@@ -92,23 +103,41 @@ public class PlayerController : MonoBehaviour
 
         }
         if (other.gameObject.tag == "DestroyBooster") {
-
+            bonustouch.Play();
+            if (audioMainLoop && audioMainLoop.pitch < 1.2f) {
+                audioMainLoop.pitch += 0.025f;
+            }
             Destroy(other.gameObject);
             if (destroyTimer <= 0) {
                 //animation.Play("Bonus");
             }
             destroyTimer = destroyTime;
+
         }
         if (other.gameObject.tag == "Wall" && destroyTimer > 0) {
             Destroy(other.gameObject);
+            wallDestroy.Play();
+        }
+
+        if (destroyTimer <= 0f) {
+            if (audioMainLoop && audioMainLoop.pitch > 1f) {
+                audioMainLoop.pitch += 0.05f;
+                audioMainLoop.pitch = 1f;
+            }
         }
 
     }
 
     public void Lose() {
+        if (!lose.isPlaying) {
+            lose.Play();
+        }
+
         dead = true;
         mover.Stop();
-
+        if (audioMainLoop) {
+            audioMainLoop.pitch = 1f;
+        }
         animation.Play("Death", PlayMode.StopAll);
     }
 

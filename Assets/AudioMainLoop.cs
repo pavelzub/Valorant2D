@@ -7,7 +7,6 @@ public class AudioMainLoop : MonoBehaviour
     public static AudioMainLoop instance;
 
     private AudioSource audioSource;
-    public AudioClip clip;
 
     private void Awake() {
         if (instance == null) {
