@@ -5738,7 +5738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 13623680afea0104e92bb33ddc48c601, type: 3}
-  bend: 8
+  bend: 5
   scanlineSize1: 800
   scanlineSpeed1: -10
   scanlineSize2: 10
