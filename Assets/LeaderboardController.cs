@@ -22,15 +22,27 @@ public class PlayersData
 
 public class LeaderboardController : MonoBehaviour
 {
+    public GameObject currentPlayerResult;
+
     public static string URL = "https://mazerix-e6c90-default-rtdb.europe-west1.firebasedatabase.app/.json";
 
-    private int score;
-    private string username;
+    private Player currentPlayer = new Player();
+
+    public void SetCurrentPlayerResult(string playerName, int score)
+    {
+        currentPlayer.name = playerName;
+        currentPlayer.score = score;
+        CurrentPlayerStatistic currentPlayerStatistic = currentPlayerResult.GetComponent<CurrentPlayerStatistic>();
+        currentPlayerStatistic.WritePlayerStatictic(playerName, score);
+
+        
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        //StartCoroutine(DeleteRequest(URL));
+        SetCurrentPlayerResult("VasyaPupkin", 121213);
+        StartCoroutine(DeleteRequest(URL));
         // эту хуйню удалить, чисто тест пока
         Player user = new Player();
         user.name = "Joe";
@@ -38,13 +50,6 @@ public class LeaderboardController : MonoBehaviour
         string json = JsonUtility.ToJson(user);
         //StartCoroutine(PostRequest(URL, json.ToString()));
 
-    }
-
-    // вызывается после проигрыша и после нажатия кнопки ОК в окне ввода юзернейма
-    public void SetUserStatistic(string username, int score)
-    {
-        this.username = username;
-        this.score = score;
     }
 
     IEnumerator PostRequest(string url, string json)
