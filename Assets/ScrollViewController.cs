@@ -1,0 +1,34 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ScrollViewController : MonoBehaviour
+{
+    public ScrollRect scrollView;
+    public GameObject playerResultPrefab;
+
+    public void AddContent(List<Player> players)
+    {
+
+        //foreach (Player player in players)
+        //{
+        //    GameObject itemInScrollView = Instantiate(playerResultPrefab, scrollView.transform);
+        //    LeaderboardRowController leaderboardRowController = itemInScrollView.GetComponent<LeaderboardRowController>();
+        //    leaderboardRowController.SetupPlayerInfo(player.name, player.score);
+        //    itemInScrollView.transform.SetParent(scrollView.content);
+        //}
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}

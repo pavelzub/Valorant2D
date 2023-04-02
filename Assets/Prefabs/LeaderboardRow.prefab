@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5774726347874510879}
   - component: {fileID: 5774726347874510849}
   - component: {fileID: 5774726347874510878}
+  - component: {fileID: -7503788733859624872}
   m_Layer: 0
   m_Name: LeaderboardRow
   m_TagString: Untagged
@@ -79,6 +80,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-7503788733859624872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5774726347874510876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e520f6843707bf44aa8bd98f4a09449d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: {fileID: 5774726348079649008}
+  playerName: {fileID: 5774726348553835163}
 --- !u!1 &5774726348079649008
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,8 +42,8 @@ public class LeaderboardController : MonoBehaviour
     void Start()
     {
         SetCurrentPlayerResult("VasyaPupkin", 121213);
-        //StartCoroutine(DeleteRequest(URL));
         StartCoroutine(GetRequest(URL));
+
     }
 
     IEnumerator PostRequest(string url, string json)
@@ -54,10 +54,10 @@ public class LeaderboardController : MonoBehaviour
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
 
-        // Отправляем запрос и ждем ответа
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         yield return request.SendWebRequest();
 
-        // Проверяем, произошла ли ошибка при отправке запроса
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
         {
             Debug.LogError(request.error);
@@ -65,7 +65,7 @@ public class LeaderboardController : MonoBehaviour
         else
         {
             yield return StartCoroutine(GetRequest(URL));
-            // Выводим ответ в консоль
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Debug.Log(request.downloadHandler.text);
         }
     }
@@ -74,18 +74,29 @@ public class LeaderboardController : MonoBehaviour
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
-            // Отправляем запрос и ждем ответа
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             yield return webRequest.SendWebRequest();
 
-            // Проверяем, произошла ли ошибка при отправке запроса
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(webRequest.error);
             }
             else
             {
-                // Выводим ответ в консоль
-                var players = ParseResponse(webRequest.downloadHandler.text);
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                //var players = ParseResponse(webRequest.downloadHandler.text);
+                List<Player> p2 = new List<Player>();
+                Player p1 = new Player();
+                p1.name = "Vasya";
+                p1.score = 11;
+                Player pp = new Player();
+                pp.name = "Petya";
+                pp.score = 58;
+                p2.Add(p1);
+                p2.Add(pp);
+                ScrollViewController scrollViewController = new ScrollViewController();
+                scrollViewController.AddContent(p2);
                 Debug.Log(webRequest.downloadHandler.text);
             }
         }
@@ -110,17 +121,17 @@ public class LeaderboardController : MonoBehaviour
     {
         var request = new UnityWebRequest(uri, "DELETE");
 
-        // Отправляем запрос и ждем ответа
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         yield return request.SendWebRequest();
 
-        // Проверяем, произошла ли ошибка при отправке запроса
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
         {
             Debug.LogError(request.error);
         }
         else
         {
-            // Выводим ответ в консоль
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Debug.Log("All data deleted successfully.");
         }
     }
