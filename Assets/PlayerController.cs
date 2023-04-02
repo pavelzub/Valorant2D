@@ -28,11 +28,13 @@ public class PlayerController : MonoBehaviour
     private Vector3 cameraCenter;
     private bool dead = false;
     private Animation animation;
+    private Animator animator;
     private AudioSource audioMainLoop;
 
     // вызывается при запуске игры
     private void Start() {
         animation = GetComponent<Animation>();
+        animator = GetComponent<Animator>();
         var cameraComp = camera.GetComponent<Camera>();
         cameraHeight = 2f * cameraComp.orthographicSize;
         cameraWidth = cameraHeight * cameraComp.aspect;
@@ -63,7 +65,7 @@ public class PlayerController : MonoBehaviour
         }
         else {
             wings.volume = 0.6f;
-            //animation.Stop("Bonus");
+            animator.SetBool("Bonus", false);
         }
         wings.Play();
         float horizontal = Input.GetAxis("Horizontal");
@@ -109,7 +111,7 @@ public class PlayerController : MonoBehaviour
             }
             Destroy(other.gameObject);
             if (destroyTimer <= 0) {
-                //animation.Play("Bonus");
+                animator.SetBool("Bonus", true);
             }
             destroyTimer = destroyTime;
 
