@@ -27,7 +27,7 @@ public class WorldMover : MonoBehaviour
             if (playerController.score > currentThreshold) {
                 currentThreshold += coinsThreshold;
                 speed += speedIncreece;
-                speed = Mathf.Max(speed, maxSpeed);
+                speed = Mathf.Min(speed, maxSpeed);
             }
         }
     }
