@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public GameObject camera;
     public AudioSource cointouch;
     public WorldMover mover;
+    public GameObject nameWindow;
     public float speed = 5f; // скорость движения точки
     private float cameraHeight;
     private float cameraWidth;
@@ -98,6 +99,10 @@ public class PlayerController : MonoBehaviour
 
         var anim = GetComponent<Animation>();
         anim.Play("Death");
+    }
+
+    public void DeathAnimEnd() {
+        nameWindow.SetActive(true);
     }
 
     public void SwitchToScene(string sceneName) {
