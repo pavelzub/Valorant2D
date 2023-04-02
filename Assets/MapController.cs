@@ -19,6 +19,7 @@ public class MapController : MonoBehaviour
     public GameObject boosterPrefab;
     public GameObject horizontalWallPrefab;
     public GameObject verticalWallPrefab;
+    public GameObject frameWallPrefab;
     public GameObject horizontalSpikyWallPrefab;
     public GameObject verticalSpikyWallPrefab;
     public GameObject holder;
@@ -226,8 +227,8 @@ public class MapController : MonoBehaviour
     void CreateFrame() {
         Point pos = new Point(0, 0);
         for (int i = 0; i < frameSize.Width; i++) {
-            Instantiate(verticalWallPrefab, new Vector3(-cellSize / 4f, (-i + 1) * cellSize, 0f), Quaternion.identity);
-            Instantiate(verticalWallPrefab, new Vector3((frameSize.Width - 0.25f) * cellSize, (-i + 1) * cellSize, 0f), Quaternion.identity);
+            Instantiate(frameWallPrefab, new Vector3(-cellSize / 2f, (-i + 1) * cellSize, 0f), Quaternion.identity);
+            Instantiate(frameWallPrefab, new Vector3((frameSize.Width - 0.5f) * cellSize, (-i + 1) * cellSize, 0f), Quaternion.identity);
         }
     }
     void ClearCell(Cell cell) {
