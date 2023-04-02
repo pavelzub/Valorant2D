@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject camera;
     public AudioSource cointouch;
+    public AudioSource wings;
     public WorldMover mover;
     public GameObject nameWindow;
     public float speed = 5f; // скорость движения точки
@@ -44,9 +46,13 @@ public class PlayerController : MonoBehaviour
         }
 
         if (destroyTimer > 0) {
+            wings.volume = 1;
             destroyTimer -= Time.deltaTime;
         }
-
+        else {
+            wings.volume = 0.6f;
+        }
+        wings.Play();
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         var direction = new Vector2(horizontal, vertical);
