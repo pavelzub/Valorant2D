@@ -42,14 +42,8 @@ public class LeaderboardController : MonoBehaviour
     void Start()
     {
         SetCurrentPlayerResult("VasyaPupkin", 121213);
-        StartCoroutine(DeleteRequest(URL));
-        // эту хуйню удалить, чисто тест пока
-        Player user = new Player();
-        user.name = "Joe";
-        user.score = 11;
-        string json = JsonUtility.ToJson(user);
-        //StartCoroutine(PostRequest(URL, json.ToString()));
-
+        //StartCoroutine(DeleteRequest(URL));
+        StartCoroutine(GetRequest(URL));
     }
 
     IEnumerator PostRequest(string url, string json)
