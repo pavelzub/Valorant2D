@@ -3,38 +3,32 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine;
-using TMPro;
 using System.Text;
 
 public class LeaderboardController : MonoBehaviour
 {
     public static string URL = "https://mazerix-e6c90-default-rtdb.europe-west1.firebasedatabase.app/.json";
-    public GameObject rawPrefab;
+
+    private int score;
+    private string username;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        // эту хуйню удалить, чисто тест пока
+        UserInfo user = new UserInfo();
+        user.username = "Joe";
+        user.score = 11;
+        string json = JsonUtility.ToJson(user);
+        StartCoroutine(PostRequest(URL, json.ToString()));
+
     }
 
-    IEnumerator GetRequest(string url)
+    // вызывается после проигрыша и после нажатия кнопки ОК в окне ввода юзернейма
+    public void SetUserStatistic(string username, int score)
     {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
-        {
-            // Отправляем запрос и ждем ответа
-            yield return webRequest.SendWebRequest();
-
-            // Проверяем, произошла ли ошибка при отправке запроса
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
-            {
-                Debug.LogError(webRequest.error);
-            }
-            else
-            {
-                // Выводим ответ в консоль
-                Debug.Log(webRequest.downloadHandler.text);
-                rawPrefab.GetComponent<TMP_Text>().text = webRequest.downloadHandler.text;
-            }
-        }
+        this.username = username;
+        this.score = score;
     }
 
     IEnumerator PostRequest(string url, string json)
@@ -55,8 +49,29 @@ public class LeaderboardController : MonoBehaviour
         }
         else
         {
+            yield return StartCoroutine(GetRequest(URL));
             // Выводим ответ в консоль
             Debug.Log(request.downloadHandler.text);
+        }
+    }
+
+    IEnumerator GetRequest(string url)
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            // Отправляем запрос и ждем ответа
+            yield return webRequest.SendWebRequest();
+
+            // Проверяем, произошла ли ошибка при отправке запроса
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(webRequest.error);
+            }
+            else
+            {
+                // Выводим ответ в консоль
+                Debug.Log(webRequest.downloadHandler.text);
+            }
         }
     }
 
