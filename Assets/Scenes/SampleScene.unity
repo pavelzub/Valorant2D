@@ -752,6 +752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 519420028}
+  mover: {fileID: 1964690297}
   speed: 4
   score: 0
   destroyTime: 5
@@ -885,7 +886,9 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: d67b9d318c586f741babe1517790c47c, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: d67b9d318c586f741babe1517790c47c, type: 2}
+  - {fileID: 7400000, guid: 20390f1f1c4b48c4f9c8d0b5f32f0833, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0

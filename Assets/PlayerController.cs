@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     public GameObject camera;
+    public WorldMover mover;
     public float speed = 5f; // скорость движения точки
     private float cameraHeight;
     private float cameraWidth;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public float destroyTime = 5;
     private float destroyTimer = 0;
     private Vector3 cameraCenter;
+    private bool dead = false;
 
     // вызывается при запуске игры
     private void Start() {
@@ -35,6 +37,10 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update() {
+        if (dead) {
+            return;
+        }
+
         if (destroyTimer > 0) {
             destroyTimer -= Time.deltaTime;
         }
@@ -50,10 +56,14 @@ public class PlayerController : MonoBehaviour
         }
 
         if (transform.position.y < cameraBottom) {
-            //transform.SetPositionAndRotation(cameraCenter, Quaternion.identity);
-            SwitchToScene("LeaderBoard");
+            Lose();
+            //SwitchToScene("LeaderBoard");
         }
     }
+
+    //public void SwitchToScene(string name) {
+
+    //}
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.tag == "Coin") {
             score++;
@@ -65,7 +75,7 @@ public class PlayerController : MonoBehaviour
                 Destroy(other.gameObject);
             }
             else {
-                SwitchToScene("LeaderBoard");
+                Lose();
             }
 
         }
@@ -78,6 +88,14 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
         }
 
+    }
+
+    public void Lose() {
+        dead = true;
+        mover.Stop();
+
+        var anim = GetComponent<Animation>();
+        anim.Play("Death");
     }
 
     public void SwitchToScene(string sceneName) {
