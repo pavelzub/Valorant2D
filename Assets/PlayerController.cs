@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public AudioSource wallDestroy;
     public AudioSource lose;
     public AudioSource bonustouch;
+    public AudioSource bonusOff;
+    bool isBonusActive = false;
     public WorldMover mover;
     public GameObject nameWindow;
     public float speed = 5f; // скорость движения точки
@@ -106,6 +108,7 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.tag == "DestroyBooster") {
             bonustouch.Play();
+            isBonusActive = true;
             if (audioMainLoop && audioMainLoop.pitch < 1.2f) {
                 audioMainLoop.pitch += 0.025f;
             }
@@ -126,6 +129,11 @@ public class PlayerController : MonoBehaviour
                 audioMainLoop.pitch += 0.05f;
                 audioMainLoop.pitch = 1f;
             }
+            if (isBonusActive) {
+                bonusOff.Play();
+                isBonusActive = false;
+            }
+
         }
 
     }
