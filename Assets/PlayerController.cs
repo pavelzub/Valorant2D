@@ -136,6 +136,11 @@ public class PlayerController : MonoBehaviour
 
         }
 
+        if (destroyTimer <= 0.5f && isBonusActive) {
+            isBonusActive = false;
+            bonusOff.Play();
+        }
+
     }
 
     public void Lose() {

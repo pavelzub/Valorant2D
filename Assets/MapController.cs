@@ -14,6 +14,12 @@ public class MapController : MonoBehaviour
     public float cellSize = 1;
     public float coinChance = 10;
     public float boosterChance = 1;
+    public float coinsRoomChance = 1;
+    public int roomMaxSize = 10;
+    public int roomMinSize = 1;
+    public int roomDisableLines = 10;
+    public int firstRow = 20;
+    private int nextRoomRow = 0;
     public Size frameSize = new Size(10, 10);
     public GameObject coinPrefab;
     public GameObject boosterPrefab;
@@ -101,6 +107,7 @@ public class MapController : MonoBehaviour
     void Start() {
         frameSize = new Size(frameWidth, frameHeight);
         crasivayaRow = frameSize.Height * 2;
+        nextRoomRow = firstRow;
 
         InitCamera();
         ResetMaze();
@@ -133,11 +140,14 @@ public class MapController : MonoBehaviour
     }
 
     bool NeedCoin() {
-        return UnityEngine.Random.Range(0, 100) <= coinChance;
+        return UnityEngine.Random.Range(0, 10000) / 100f <= coinChance;
     }
 
     bool NeedBooster() {
-        return UnityEngine.Random.Range(0, 100) <= boosterChance;
+        return UnityEngine.Random.Range(0, 10000) / 100f <= boosterChance;
+    }
+    bool NeedRoom() {
+        return UnityEngine.Random.Range(0, 10000) / 100f <= coinsRoomChance;
     }
 
     void GenerateMaze() {
@@ -211,6 +221,26 @@ public class MapController : MonoBehaviour
             newRow[i].InitWalls(new Vector2(i * cellSize, currentRow * cellSize), horizontalWallPrefab, verticalWallPrefab, horizontalSpikyWallPrefab, verticalSpikyWallPrefab, coinPrefab, boosterPrefab, holder, cellSize, spikyWallChance);
         }
         currentRow++;
+
+        if (currentRow > nextRoomRow && NeedRoom()) {
+            var size = UnityEngine.Random.Range(roomMinSize, roomMaxSize);
+            var first = UnityEngine.Random.Range(0, frameWidth - size);
+            for (var i = 0; i < size; i++) {
+                var row = arr[arr.Count() - i - 1];
+                for (var j = 0; j < size; j++) {
+                    var index = j + first;
+                    ClearCell(row[index]);
+                    row[index].needCoin= true;
+                    row[index].needRightWall = false;
+                    row[index].needBottomWall = false;
+
+                    row[index].coin = Instantiate(coinPrefab, holder.transform);
+                    row[index].coin.transform.Translate(new Vector3(index * cellSize, (currentRow - i - 1) * cellSize, 0));
+                }
+            }
+
+            nextRoomRow += size + roomDisableLines;
+        }
     }
 
     void SdelatKrasivo() {

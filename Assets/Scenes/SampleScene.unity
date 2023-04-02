@@ -678,7 +678,12 @@ MonoBehaviour:
   frameWidth: 20
   cellSize: 0.86
   coinChance: 10
-  boosterChance: 0.32
+  boosterChance: 1
+  coinsRoomChance: 5
+  roomMaxSize: 6
+  roomMinSize: 1
+  roomDisableLines: 10
+  firstRow: 20
   coinPrefab: {fileID: 3922041079123338158, guid: 6fa5742cee056bb4d86879667a782cb0, type: 3}
   boosterPrefab: {fileID: 3922041079123338158, guid: 0ea2c23da7a45684ca97495fbb7cfaf1, type: 3}
   horizontalWallPrefab: {fileID: 8081964067168565190, guid: cbade28e4c08d87489157dc0c1f8fb6b, type: 3}
