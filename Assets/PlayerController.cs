@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     public GameObject camera;
+    public AudioSource cointouch;
     public WorldMover mover;
     public float speed = 5f; // скорость движения точки
     private float cameraHeight;
@@ -68,6 +69,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Coin") {
             score++;
             Destroy(other.gameObject);
+            cointouch.Play();
         }
 
         if (other.gameObject.tag == "Spiky") {
