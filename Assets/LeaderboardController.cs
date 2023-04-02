@@ -1,9 +1,24 @@
 
 using System.Collections.Generic;
 using System.Collections;
+using Newtonsoft.Json;
 using UnityEngine.Networking;
 using UnityEngine;
 using System.Text;
+using System;
+
+[Serializable]
+public class Player
+{
+    public string name;
+    public int score;
+}
+
+[Serializable]
+public class PlayersData
+{
+    public Dictionary<string, Player> players;
+}
 
 public class LeaderboardController : MonoBehaviour
 {
@@ -15,12 +30,13 @@ public class LeaderboardController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //StartCoroutine(DeleteRequest(URL));
         // эту хуйню удалить, чисто тест пока
-        UserInfo user = new UserInfo();
-        user.username = "Joe";
+        Player user = new Player();
+        user.name = "Joe";
         user.score = 11;
         string json = JsonUtility.ToJson(user);
-        StartCoroutine(PostRequest(URL, json.ToString()));
+        //StartCoroutine(PostRequest(URL, json.ToString()));
 
     }
 
@@ -70,9 +86,25 @@ public class LeaderboardController : MonoBehaviour
             else
             {
                 // Выводим ответ в консоль
+                var players = ParseResponse(webRequest.downloadHandler.text);
                 Debug.Log(webRequest.downloadHandler.text);
             }
         }
+    }
+
+    List<Player> ParseResponse(string jsonString)
+    {
+        PlayersData players = new PlayersData();
+        players.players = JsonConvert.DeserializeObject<Dictionary<string, Player>>(jsonString);
+        List<Player> playersList = new List<Player>();
+        foreach (KeyValuePair<string, Player> player in players.players)
+        {
+            Player p = new Player();
+            p.name = player.Value.name;
+            p.score = player.Value.score;
+            playersList.Add(p);
+        }
+        return playersList;
     }
 
     IEnumerator DeleteRequest(string uri)
